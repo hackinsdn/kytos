@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg \
 
 RUN python3 -m pip install -e git+https://github.com/hackinsdn/containment@${branch_containment}#egg=hackinsdn-containment \
  && python3 -m pip install -e git+https://github.com/hackinsdn/mirror@${branch_mirror}#egg=hackinsdn-mirror \
- && python3 -m pip install -e git+https://github.com/kytos-ng/of_l2ls@{branch_of_l2ls}#egg=kytos-of-l2ls \
+ && python3 -m pip install -e git+https://github.com/kytos-ng/of_l2ls@${branch_of_l2ls}#egg=kytos-of-l2ls \
  && unlink /var/lib/kytos/napps/kytos/of_l2ls \
  && unlink /var/lib/kytos/napps/kytos/kafka_events
 
