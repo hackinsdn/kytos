@@ -3,6 +3,7 @@ MAINTAINER Italo Valcy <italo@amlight.net>
 
 ARG branch_containment=main
 ARG branch_mirror=main
+ARG branch_of_l2ls=master
 
 # Install MongoDB
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg \
@@ -15,8 +16,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends gnupg \
  && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install -e git+https://github.com/hackinsdn/containment@${branch_containment}#egg=hackinsdn-containment \
- && python3 -m pip install -e git+https://github.com/hackinsdn/mirror@${branch_mirror}#egg=hackinsdn-mirror
+ && python3 -m pip install -e git+https://github.com/hackinsdn/mirror@${branch_mirror}#egg=hackinsdn-mirror \
+ && python3 -m pip install -e git+https://github.com/kytos-ng/of_l2ls@{branch_of_l2ls}#egg=kytos-of-l2ls \
+ && unlink /var/lib/kytos/napps/kytos/of_l2ls \
+ && unlink /var/lib/kytos/napps/kytos/kafka_events
 
 COPY docker-entrypoint2.sh /docker-entrypoint2.sh
+COPY restart-kytos.sh /usr/local/bin/restart-kytos.sh
 
 ENTRYPOINT ["/docker-entrypoint2.sh"]
